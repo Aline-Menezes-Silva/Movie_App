@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import plotly.express as px
+import io
 
 # Set page config
 st.set_page_config(layout="wide", page_title="Movie Analysis Dashboard")
@@ -40,14 +42,34 @@ st.markdown(f"""
     """, unsafe_allow_html=True)
 
 # Title
-st.title(" FilmFilter Dashboard")
+st.title("🎬 FilmFilter Dashboard")
 
-# Load data
+# Load data with robust encoding handling
 @st.cache_data
 def load_data():
-    movies = pd.read_csv("movies.csv")
-    ratings = pd.read_csv("rating.csv")
-    tags = pd.read_csv("tags.csv")
+    encodings = ['utf-8', 'latin1', 'iso-8859-1', 'cp1252']
+    
+    for encoding in encodings:
+        try:
+            with open("movies.csv", 'rb') as f:
+                movies_content = f.read().decode(encoding)
+            movies = pd.read_csv(io.StringIO(movies_content))
+            
+            with open("rating.csv", 'rb') as f:
+                ratings_content = f.read().decode(encoding)
+            ratings = pd.read_csv(io.StringIO(ratings_content))
+            
+            with open("tags.csv", 'rb') as f:
+                tags_content = f.read().decode(encoding)
+            tags = pd.read_csv(io.StringIO(tags_content))
+            
+            st.success(f"Successfully loaded with {encoding} encoding")
+            break
+        except (UnicodeDecodeError, pd.errors.ParserError) as e:
+            continue
+    else:
+        st.error("Failed to load CSV files with all attempted encodings")
+        return None, None, None
     
     # Data processing
     movies['year'] = movies['title'].str.extract(r'\((\d{4})\)')
@@ -68,9 +90,13 @@ def load_data():
 
 movie_stats, movies, tags = load_data()
 
+if movie_stats is None:
+    st.error("Critical error: Could not load data. Please check your CSV files.")
+    st.stop()
+
 # Sidebar filters
 with st.sidebar:
-    st.header("Filters")
+    st.header("🎛️ Filters")
     
     # Genre selector
     genre_popularity = movies.explode('genres_list').groupby('genres_list').size().reset_index(name='count')
@@ -115,7 +141,7 @@ filtered_stats = movie_stats[
 col1, col2 = st.columns([1, 2])
 
 with col1:
-    st.markdown("###  Genre Popularity")
+    st.markdown("### 📊 Genre Popularity")
     genre_counts = movies.explode('genres_list')
     genre_counts = genre_counts[genre_counts['genres_list'].isin(selected_genres)]
     genre_counts = genre_counts.groupby('genres_list').size().reset_index(name='count')
@@ -129,7 +155,7 @@ with col1:
     st.plotly_chart(fig, use_container_width=True)
 
 with col2:
-    st.markdown("###  Rating Trends")
+    st.markdown("### 📈 Rating Trends")
     yearly_filtered = ratings.merge(filtered_movies[['movieId', 'year']], on='movieId')
     yearly_avg = yearly_filtered.groupby('year')['rating'].mean().reset_index()
     
@@ -142,7 +168,7 @@ with col2:
     st.plotly_chart(fig, use_container_width=True)
 
 # Second row
-st.markdown("###  Top Rated Movies")
+st.markdown("### 🏆 Top Rated Movies")
 top_movies = filtered_stats.sort_values(['avg_rating', 'rating_count'], ascending=[False, False]).head(20)
 fig = px.scatter(
     top_movies,
@@ -156,7 +182,7 @@ fig = px.scatter(
 st.plotly_chart(fig, use_container_width=True)
 
 # Tag cloud
-st.markdown("###  Popular Tags")
+st.markdown("### 🏷️ Popular Tags")
 filtered_tags = tags[tags['movieId'].isin(filtered_movies['movieId'])]
 tag_counts = filtered_tags['tag'].value_counts().reset_index().head(20)
 tag_counts.columns = ['tag', 'count']
