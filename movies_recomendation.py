@@ -1,9 +1,21 @@
 import os
-os.environ["STREAMLIT_SERVER_WATCH_FILE_WATCHER_TYPE"] = "none"
+import subprocess
+import sys
 
+# Force install dependencies if missing
+def install(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+try:
+    import plotly.express as px
+except ImportError:
+    install("plotly==5.18.0")
+    import plotly.express as px
+
+# Rest of your imports
 import streamlit as st
 import pandas as pd
-import plotly.express as px  # Now this will work
+
 
 import numpy as np
 from wordcloud import WordCloud
