@@ -3,4 +3,7 @@ pandas==2.0.3
 plotly==5.15.0
 matplotlib==3.7.1
 wordcloud==1.8.2.2
-  
+
+git add requirements.txt
+git commit -m "Add dependencies for Streamlit app"
+git push
