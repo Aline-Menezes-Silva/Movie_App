@@ -62,8 +62,8 @@ if movies is not None:
     
     # Merge all features
     movie_stats = movies.merge(movie_stats, on='movieId', how='left')\
-                          .merge(tag_stats, on='movieId', how='left')\
-                          .fillna(0)
+                      .merge(tag_stats, on='movieId', how='left')\
+                      .fillna(0)
     
     # Streamlit app layout
     st.set_page_config(layout="wide")
@@ -100,7 +100,7 @@ if movies is not None:
         # Genre Selector
         selected_genres = st.multiselect(
             "Select Genres:",
-            options=genre_popularity['genres_list'].head(15),
+            options=genre_popularity['genres_list'].head(15).tolist(),
             default=['Action', 'Comedy', 'Sci-Fi']
         )
         
