@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-
 # Set page config
 st.set_page_config(layout="wide", page_title="Movie Analysis Dashboard")
 
