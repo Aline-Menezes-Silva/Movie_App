@@ -1,3 +1,8 @@
+import os
+os.environ["STREAMLIT_SERVER_MAX_UPLOAD_SIZE"] = "5000"
+os.environ["STREAMLIT_SERVER_WATCH_FILE_WATCHER_TYPE"] = "none"  # Disable file watcher
+
+
 import streamlit as st
 import pandas as pd
 import numpy as np
