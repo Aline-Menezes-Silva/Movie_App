@@ -152,9 +152,8 @@ app.layout = dbc.Container(
             )
         ),
         
-     
-import plotly.express as px
-import plotly.graph_objects as go
+     import plotly.express as px
+     import plotly.graph_objects as go
 
    
         # Main content rows
