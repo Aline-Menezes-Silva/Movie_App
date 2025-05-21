@@ -1,8 +1,7 @@
 import streamlit as st
 
 import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
+
 from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 from wordcloud import WordCloud
@@ -153,7 +152,11 @@ app.layout = dbc.Container(
             )
         ),
         
-        
+     
+import plotly.express as px
+import plotly.graph_objects as go
+
+   
         # Main content rows
         dbc.Row(
             [
