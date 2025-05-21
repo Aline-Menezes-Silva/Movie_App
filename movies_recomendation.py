@@ -1,10 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from wordcloud import WordCloud
-import matplotlib.pyplot as plt
-from io import BytesIO
-import base64
 
 # Set page config
 st.set_page_config(layout="wide", page_title="Movie Analysis Dashboard")
