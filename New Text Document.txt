@@ -1,3 +1,7 @@
+streamlit
+pandas
 plotly
-matplotlib
+dash
+dash-bootstrap-components
 wordcloud
+matplotlib
