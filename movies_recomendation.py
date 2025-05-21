@@ -1,12 +1,11 @@
 import os
-os.environ["STREAMLIT_SERVER_MAX_UPLOAD_SIZE"] = "5000"
-os.environ["STREAMLIT_SERVER_WATCH_FILE_WATCHER_TYPE"] = "none"  # Disable file watcher
-
+os.environ["STREAMLIT_SERVER_WATCH_FILE_WATCHER_TYPE"] = "none"
 
 import streamlit as st
 import pandas as pd
+import plotly.express as px  # Now this will work
+
 import numpy as np
-import plotly.express as px
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from io import BytesIO
