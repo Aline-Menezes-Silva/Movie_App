@@ -1,8 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import plotly.express as px
-import io
+
 
 # Set page config
 st.set_page_config(layout="wide", page_title="Movie Analysis Dashboard")
