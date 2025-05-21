@@ -1,3 +1,5 @@
+plotly>=5.0.0
+streamlit>=1.0.0
 
 import streamlit as st
 
